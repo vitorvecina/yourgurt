@@ -1,1 +1,99 @@
-oi
+
+#include <iostream>
+using namespace std;
+
+/* run this program using the console pauser or add your own getch, system("pause") or input loop */
+class atuador{
+	int id;
+	bool estado;
+	public:
+		//atuador();
+		atuador(int idnum){
+			cout << "\nRodou construtora objeto atuador num "<<idnum<<".";
+			id = idnum;
+		};
+		on(){
+              estado = HIGH;
+              };
+		off(){
+              estado = LOW;
+              };
+};
+class sensor{
+	int id;
+	float valor;
+	public:
+		//sensor();
+		sensor(int idnum){
+			cout << "\nRodou construtora objeto sensor num "<<idnum<<".";
+			id = idnum;
+		};
+		capta(){
+                ;
+		mostra(){
+                 cout << "\nO valor do sensor é"<<valor<<".";
+		
+};
+class simulador{
+	//variaveis de estado
+	bool v1on; //válvula
+	bool v2on;
+	bool v3on;
+	bool v4on;
+	bool a1on; //aquecedor
+	bool a2on;
+	bool b1on; //bomba
+	float n1;  //nível
+	float n2;
+	float t1;  //temperatura
+	float t2;
+	float tempo;
+	public:
+		simulador(){
+			//inicia as variaveis de estado
+			cout << "\nRodou construtora objeto simulador.";
+			v1on, v2on, v3on, v4on, a1on, a2on, b1on, n1, n2 = 0;
+            tempo = 0;
+			t1 = temperatura1.capta();
+			t2 = temperatura2.capta();
+		};
+		passatempo(int deltaseg){
+			cout << "\nRodou a passatempo delta="<<deltaseg<<".";
+			cout << "\nTempo inicial="<<tempo<<".";
+			tempo += deltaseg;
+			cout << "\nTempo final="<<tempo<<".";
+		};
+};
+class tanque{
+	atuador vin, vout;
+	sensor nivel, temperatura, bomba;
+	simulador *sims;
+	float diametro;
+	public:
+		tanque(int idvin, int idvout, int idnivel, int idtemp, int idbomba, simulador *objetosim):vin(idvin),vout(idvout),nivel(idnivel),
+				temperatura(idtemp),bomba(idbomba){
+			
+			cout << "\nRodou construtora objeto tanque num vin "<<idvin<<".";
+			//liga sims ao objeto simulador objetosim passado no parametro
+			sims = objetosim;
+		};
+		enche(){
+                vin.on();
+                
+			//abre vin e aguarda sensor de nivel atingir valor maximo (de tanque cheio)
+			sims -> passatempo(100);
+		};
+		esvazia();
+		esquenta();
+		esfria();
+};
+
+int main(int argc, char** argv) {
+	simulador sim;
+	tanque t1(1,2,1,1,1,&sim);
+	tanque t2(3,4,2,2,1,&sim);
+	t1.enche();
+	t2.enche();
+	system("pause");
+	return 0;
+}
