@@ -1,0 +1,197 @@
+#include <iostream>
+#include <stdlib.h>
+#include <conio.h>
+#include <ctime>
+#include <string.h>
+using namespace std;
+//------------------------------------------------------------------------------
+class sensor{
+  float valor;
+  char nome[12];
+  int numero;
+public:
+  void seta_nome(char *str);
+  void seta_numero(int i);
+  void leitura();
+  float mostra();
+  };
+class sensort:public sensor{
+public:
+  sensort(int n);
+  ~sensort();
+  };
+class sensorn:public sensor{
+public:
+  sensorn(int n);
+  ~sensorn();
+  };
+class atuador{
+  bool situacao;
+  char nome[8];
+  int numero;
+public:
+  void seta_numero(int y);
+  void seta_nome(char *str);
+  void on();
+  void off();
+  bool mostra();
+  };
+class motor:public atuador{
+  int velocidade;
+public:
+  motor(int z);
+  ~motor();
+  void seta_velocidade();
+  int mostra_velocidade();
+  };
+class valvula:public atuador{
+public:
+  valvula(int z);
+  ~valvula();
+  };
+class timer:public atuador{
+public:
+  ~timer();
+  void delay(int j); // segundoss -> inteiros
+  timer (){
+    cout<<"\n\nInicio da contagem";
+  }
+  };
+//------------------------------------------------------------------------------
+void timer::delay(int t){
+ float t1,t2;
+ cout<<"\n\n\tTempo de ação:";
+ cin>>t1;
+ t2=clock();
+ while ((clock()-t2)/CLK_TCK<=t1)
+{
+}
+ };
+sensort::sensort(int n){
+ cout<<"\n\nSensor temperatura ligado";
+ seta_nome ("temperatura");
+ seta_numero(n);
+ };
+void sensor::seta_nome(char *str){
+ strcpy(nome,str);
+ };
+
+void sensor::seta_numero(int y){
+ numero= y;
+ };
+
+sensort::~sensort(){
+ cout<<"\n\n Sensor temperatura desligado";
+ };
+sensorn::sensorn(int n){
+ cout<<"\n\n Sensor nivel/velocidade ligado";
+ seta_nome("nivelocidade");
+ seta_numero(n);
+ };
+sensorn::~sensorn(){
+ cout<<"\n\nSensor de nivel/velocidade desligado";
+ };
+motor::motor(int z){
+ cout <<"\n\nMotor on";
+ seta_nome("motor");
+ seta_numero(z);
+ };
+void atuador::seta_nome(char*str){
+ strcpy(nome,str);
+ };
+void atuador::seta_numero (int y){
+ numero = y;
+ };
+
+valvula::valvula(int z){
+ cout<<"\n\nValvula"<<z<<" fechada";
+ seta_nome("valvula");
+ seta_numero(z);
+ };
+
+motor::~motor(){
+ cout <<"\n\nMotor off";
+ };
+valvula::~valvula(){
+ cout<<"\n\nValvulas desligadas";
+ };
+timer::~timer(){
+ cout <<"\n\n\tTérmino da contagem";
+ };
+void motor::seta_velocidade(){
+ cout<<"\n\nDigite a velocidade do motor: ";
+ cin>>velocidade;
+ };
+int motor::mostra_velocidade(){
+ cout<<"\n\n\tA velocidadeocidade do motor é:"<<velocidade;
+ return velocidade;
+ };
+void sensor::leitura(){
+ cout<<"\n\nDigite o valor do sensor"<<nome<<numero<<":";
+ cin>>valor;
+ };
+float sensor::mostra(){
+ cout<<"\n\n\tO sensor de"<<nome<<numero<<" tem valor"<<valor;
+ return valor;
+ };
+void atuador::off(){
+ cout<<"\n\nDesligando (fechando) o(a)"<<nome<<numero;
+ situacao = 0;
+ };
+void atuador::on(){
+ cout <<"\n\nAtivando o(a)"<<nome<<numero;
+ situacao = 1;
+ };
+bool atuador::mostra (){
+ if (situacao==1){
+  cout<<"\n\nO(a)"<<nome<<numero<<" esta ativada";
+ }
+ else
+ {
+  cout <<"\n\nO(a)"<<nome<<numero<<" esta desativada";
+ }
+ return situacao;
+ };
+//------------------------------------------------------------------------------
+int main(){
+ int tempo,d;
+ sensort s3(3);
+ sensorn s1(1),s2(2);
+ valvula  v1(1),v2(2),v3(3),v4(4),v5(5),v6(6),v7(7);
+ timer t;
+ motor m(1);
+ s2.leitura();
+ s1.leitura();
+ v7.off();
+ if ((s2.mostra()==0)&&(s1.mostra()==0)&&(v7.mostra()==0))
+ {
+        v2.on();
+        t.delay(15);
+        v2.off();
+        v4.on();
+        t.delay(5);
+        v4.off();
+        m.seta_velocidade();
+        m.on();
+        s3.leitura();
+        if (s3.mostra()<=60)
+        {
+                cout<< "\n\nDigite o tempo do motor ficar ligado: ";
+                cin>>tempo;
+                d=0;
+                while (d<tempo){
+                        s3.leitura();
+                if (s3.mostra()>60)
+                {
+                        break;
+                }
+                        d=d+10;
+                }
+        }
+        }
+ system ("pause");
+ }
+
+
+
+
